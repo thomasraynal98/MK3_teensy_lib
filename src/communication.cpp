@@ -30,4 +30,13 @@ void warning_led_OFF()
 {
     DR_status = true;
     digitalWrite(DR, DR_status);
+} 
+
+void setup_extern_led()
+{
+
+}
+void set_extern_led(int option)
+{
+    // this function will manage the extern LED signal.
 }

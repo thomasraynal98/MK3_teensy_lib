@@ -6,7 +6,7 @@
 
 IntervalTimer myTimer;
 IntervalTimer myTimer_security;
-
+IntervalTimer myTimer_encoder;
 
 Micro teensy = Micro("A");
 Motor M1 = Motor(0, PWM1, MDLF, MDLB, MT1A, MT1B);
@@ -41,6 +41,11 @@ void call_security()
   else{warning_led_OFF();}
 }
 
+void call_encoder()
+{
+    teensy.send_odometry_value();
+}
+
 void setup()
 {
   teensy.add_motor(&M1);
@@ -60,7 +65,8 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(M5.get_encoderA()), call5, RISING);
   attachInterrupt(digitalPinToInterrupt(M6.get_encoderA()), call6, RISING);
 
-  myTimer_security.begin(call_security, teensy.get_security_timer());
+  myTimer_encoder.begin(call_encoder, teensy.get_encoder_timer());
+//   myTimer_security.begin(call_security, teensy.get_security_timer());
   myTimer.begin(callA, 1000000/M1.esclavagiste.param.frequency);
   M1.set_command_advance(0, 0.0);
   M2.set_command_advance(0, 0.0);
@@ -78,7 +84,6 @@ int type_message;
 
 void loop()
 {
-  delay(100);
   if(Serial.available() > 0) 
   { 
     // READ THE INCOMING DATA:

@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <micro.h>
 #include <vector>
+#include <communication.h>
+
 
 Micro::Micro(String _ID)
 {
@@ -74,6 +76,21 @@ void Micro::add_motor(Motor* new_motor)
     vect_motor.push_back(new_motor);
 }
 
+void Micro::send_odometry_value()
+{
+    String return_message = "2/";                                           // 2 type represent the odometry message.
+
+    for(int i = 0; i < 6; i++)
+    {
+        return_message = return_message + String(vect_motor[i]->get_general_tic()) + "/";
+        vect_motor[i]->reset_general_tic();
+    }
+
+    Serial.print(return_message + "\n");
+}
+
+// GET SET FUNCTION
+
 String Micro::get_ID()
 {
     return ID;
@@ -87,4 +104,9 @@ int Micro::get_security_timer()
 void Micro::reset_security_timer()
 {
     sincePrint = 0;
+}
+
+int Micro::get_encoder_timer()
+{
+    return encoder_timer;
 }

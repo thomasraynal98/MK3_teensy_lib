@@ -52,7 +52,7 @@ void Motor::set_command_simple(int direction, int pwm)
         {
             analogWrite(pin_pwm, pwm);
             digitalWrite(motor_direction_forward, true);
-            digitalWrite(motor_direction_backward, false);
+            digitalWrite(motor_direction_backward, false);            
         }
         if(side == 1)
         {
@@ -144,13 +144,13 @@ void Motor::add_tic()
 {
     if(digitalReadFast(encoderB))
     {
-        if(side == 0) motor_sensor_tic++;
-        if(side == 1) motor_sensor_tic--;
+        motor_sensor_tic++;
+        general_sensor_tic++;
     }
     else
     {
-        if(side == 0) motor_sensor_tic--;
-        if(side == 1) motor_sensor_tic++;
+        motor_sensor_tic--;
+        general_sensor_tic--;
     }
 }
 
@@ -167,4 +167,14 @@ int Motor::get_tic()
 int Motor::get_tic_per_sample()
 {
     return tic_per_sample;
+}
+
+int Motor::get_general_tic()
+{
+    return general_sensor_tic;
+}
+
+void Motor::reset_general_tic()
+{
+    general_sensor_tic = 0;
 }

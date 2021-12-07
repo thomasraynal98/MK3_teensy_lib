@@ -31,6 +31,7 @@ class Motor
         int tic_per_sample;
         int motor_sensor_tic = 0;
 
+        int general_sensor_tic = 0;       // for slamcore odometry system.
     
     public:
         // CONSTRUCTOR
@@ -48,6 +49,8 @@ class Motor
         int get_encoderA();
         int get_tic();
         int get_tic_per_sample();
+        int get_general_tic();
+        void reset_general_tic();
 
         // STATIC VARIABLE
         double tic_in_cm = 0.03458;

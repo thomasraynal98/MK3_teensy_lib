@@ -12,6 +12,8 @@ class Micro
         elapsedMillis sincePrint = 0;
 
         bool mother_board_detect = false;
+
+        int encoder_timer = 100000; // 100ms & 10 Hz
     
     public:
         // CONSTRUCTOR
@@ -23,12 +25,14 @@ class Micro
         void set_new_command();
         void security_stop_command();
         bool security_checking();
+        void send_odometry_value();
 
         // GET SET
         void add_motor(Motor* new_motor);
         String get_ID();
         int get_security_timer();
         void reset_security_timer();
+        int get_encoder_timer();
 
         // STATIC VARIABLE
 

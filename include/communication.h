@@ -40,3 +40,6 @@ void setup_led();
 void ping_reception();
 void warning_led_ON();
 void warning_led_OFF();
+void setup_extern_led();
+void set_extern_led(int option);
+
