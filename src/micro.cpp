@@ -110,3 +110,13 @@ int Micro::get_encoder_timer()
 {
     return encoder_timer;
 }
+
+bool Micro::get_mother_board_detect()
+{
+    return mother_board_detect;
+}
+
+void Micro::set_mother_board_detect(bool value)
+{
+    mother_board_detect = value;
+}

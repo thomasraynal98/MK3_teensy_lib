@@ -37,6 +37,7 @@ void call_security()
   if(teensy.security_checking())
   {
     warning_led_ON();
+    myTimer_encoder.end();
   }
   else{warning_led_OFF();}
 }
@@ -65,8 +66,8 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(M5.get_encoderA()), call5, RISING);
   attachInterrupt(digitalPinToInterrupt(M6.get_encoderA()), call6, RISING);
 
-  myTimer_encoder.begin(call_encoder, teensy.get_encoder_timer());
-//   myTimer_security.begin(call_security, teensy.get_security_timer());
+  // myTimer_encoder.begin(call_encoder, teensy.get_encoder_timer());
+  myTimer_security.begin(call_security, teensy.get_security_timer());
   myTimer.begin(callA, 1000000/M1.esclavagiste.param.frequency);
   M1.set_command_advance(0, 0.0);
   M2.set_command_advance(0, 0.0);
@@ -74,6 +75,13 @@ void setup()
   M4.set_command_advance(0, 0.0);
   M5.set_command_advance(0, 0.0);
   M6.set_command_advance(0, 0.0);
+
+//   M1.set_command_simple(1,1023);
+//   M2.set_command_simple(1,1023);
+//   M3.set_command_simple(1,1023);
+//   M4.set_command_simple(1,1023);
+//   M5.set_command_simple(1,1023);
+//   M6.set_command_simple(1,1023);
 
   Serial.begin(115200);
   Serial.setTimeout(10); 
@@ -97,9 +105,16 @@ void loop()
     {
       message_retour = "0/" + teensy.get_ID() + "\n";
       Serial.print(message_retour); 
+
       ping_reception();
       teensy.reset_security_timer();
       if(DR_status == false){ warning_led_OFF();}
+
+      if(teensy.get_mother_board_detect() == false)
+      {
+        myTimer_encoder.begin(call_encoder, teensy.get_encoder_timer());
+      }
+      teensy.set_mother_board_detect(true);
     }
 
     // NEW MOTOR COMMAND.

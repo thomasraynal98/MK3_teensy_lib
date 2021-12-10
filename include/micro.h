@@ -33,6 +33,8 @@ class Micro
         int get_security_timer();
         void reset_security_timer();
         int get_encoder_timer();
+        bool get_mother_board_detect();
+        void set_mother_board_detect(bool value);
 
         // STATIC VARIABLE
 
